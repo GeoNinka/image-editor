@@ -17,7 +17,7 @@
   padding-left: 0;
   padding-right: 0;
   position: relative;
-  z-index: 4;
+  z-index: 6;
 }
 
 .header__list {
@@ -29,12 +29,14 @@
   padding: 0;
   margin-top: 3px;
   margin-bottom: 3px;
+  z-index: 6;
 }
 
 .header__item {
   display: flex;
   flex-direction: column;
   padding: 0;
+  z-index: 6;
   border-radius: 3px;
   border: 1px solid #323232;
   color: rgb(191, 191, 191);
@@ -52,10 +54,11 @@
   padding-top: 5px;
   padding-bottom: 5px;
   margin: 0;
+  z-index: 6;
 }
 
 .header__buttons {
-  z-index: 4;
+  z-index: 6;
   margin-top: 32px;
   position: absolute;
   display: flex;
@@ -172,12 +175,29 @@
   height: 100%;
   max-height: 100%;
   overflow: hidden;
-  z-index: 1;
+  z-index: 2;
+}
+
+.workspace__coordinates {
+  z-index: 5;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  border-top: 2px solid #282828;
+  border-right: 2px solid #282828;
+  background-color: #323232;
+  margin-left: -2px;
+}
+
+.workspace__coordinate {
+  margin: 10px;
+  color: white;
+  padding-left: 15px;
 }
 
 .toolbar {
   width: 55px;
-  border-top: 2px solid #282828;
   background-color: #323232;
   z-index: 3;
 }

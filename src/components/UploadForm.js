@@ -64,10 +64,7 @@ function UploadForm({form, handleFormChange, createNewFile, openImage, urlChange
                 </form>
             </div>
         )
-    }
-
-
-    
+    }    
 }
 
 export default UploadForm

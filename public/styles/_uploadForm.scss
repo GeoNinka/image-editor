@@ -32,6 +32,10 @@
     margin: 0 auto;
     margin-top: 20px;
 
+    &--horizontal {
+        width: 40%;
+    }
+
 }
 
 .form__buttons {
@@ -72,4 +76,10 @@
             height: 40px;
         }
     }
+}
+
+.upload-form__height-n-width {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }

@@ -6,6 +6,10 @@ function WorkSpace({tool, form, handleFormChange}) {
     const [canvas, setCanvas] = useState()
     const [context, setContext] = useState()
     const [mouseState, setMouseState] = useState(false)
+    const [width, setWidth] = useState(0)
+    const [height, setHeight] = useState(0)
+    const [url, setUrl] = useState('')
+    const [image, setImage] = useState('')
 
     let lastX = []
     let lastY = []
@@ -26,7 +30,7 @@ function WorkSpace({tool, form, handleFormChange}) {
             lastY.shift()
         }
 
-        if(mouseState && tool == 'hand') {
+        if(mouseState && tool == 'hand' && form == 'none') {
             canvas.style.top = Number(canvas.style.top.slice(0,-2)) + (offsetY * -1) + 'px'
             canvas.style.left = Number(canvas.style.left.slice(0,-2)) + (offsetX * -1) + 'px'                
         }
@@ -34,9 +38,6 @@ function WorkSpace({tool, form, handleFormChange}) {
 
     const mouseDown = (e) => {
         setMouseState(true)
-        console.log(context)
-        context.fillStyle = "rgb(200,0,0)"
-        context.fillRect(0,0,canvas.width,canvas.height)
     }
 
     const mouseUp = (e) => {
@@ -46,30 +47,64 @@ function WorkSpace({tool, form, handleFormChange}) {
     
     const mouseScroll = (e) => {
         canvas.style.top = Number(canvas.style.top.slice(0,-2)) + (e.deltaY * -1) + 'px'    
-        canvas.style.left = Number(canvas.style.left.slice(0,-2)) + (e.deltaX * -1) + 'px' 
+        canvas.style.left = Number(canvas.style.left.slice(0,-2)) + (e.deltaX * -1) + 'px'    
     }
 
     const getCanvas = () => {
         const cnv = document.getElementsByClassName('canvas')[0]
         let ctx = cnv.getContext('2d')
         setContext(ctx)
-        ctx.fillStyle = "rgb(255,255,255)"
-        if(!cnv.style.top) {
-            let workspace = document.getElementsByClassName('workspace')[0]
-
-            let w = workspace.offsetWidth
-            let h = workspace.offsetHeight
-            let cw = cnv.offsetWidth
-            let ch = cnv.offsetHeight
-             
-            cnv.style.top = (h/2 - ch/2) + "px"
-            cnv.style.left = (w/2 - cw/2) + "px"
-        }
-        ctx.fillRect(0,0,cnv.width,cnv.height)
         setCanvas(cnv)
     }
 
+    const widthChange = (e) => {
+        setWidth(e.target.value)
+    } 
 
+    const heightChange = (e) => {
+        setHeight(e.target.value)
+    }
+
+    const urlChange = (e) => {
+        setUrl(e.target.value)
+    }
+
+    const fileChange = async (e) => {
+        let img = await createImageBitmap(e.target.files[0]).then((resp) => {
+            return resp
+        })
+        setImage(img)
+    }
+
+    const createNewFile = (e) => {
+        e.preventDefault()
+        handleFormChange('none')
+
+        canvas.style.width = width + 'px'
+        canvas.style.height = height + 'px'
+
+        context.fillStyle = "rgb(255,255,255)"
+        if(!canvas.style.top) {
+            let workspace = document.getElementsByClassName('workspace')[0]
+
+            const w = workspace.offsetWidth
+            const h = workspace.offsetHeight
+            const cw = canvas.offsetWidth
+            const ch = canvas.offsetHeight
+             
+            canvas.style.top = (h/2 - ch/2) + "px"
+            canvas.style.left = (w/2 - cw/2) + "px"
+        }
+        context.fillRect(0,0,canvas.width,canvas.height)
+    }
+
+    const openImage = (e) => {
+        e.preventDefault()  
+        canvas.style.width = image.width + 'px'
+        canvas.style.height = image.height + 'px'
+        handleFormChange('none')
+
+    }
     
     useEffect(() => {
         getCanvas()
@@ -86,7 +121,7 @@ function WorkSpace({tool, form, handleFormChange}) {
             <div className='canvas__wrapper'>
                 <canvas className='canvas'/>
             </div>
-            <UploadForm form={form} handleFormChange={handleFormChange}/>
+            <UploadForm form={form} handleFormChange={handleFormChange} createNewFile={createNewFile} openImage={openImage} widthChange={widthChange} heightChange={heightChange} urlChange={urlChange} fileChange={fileChange}/>
         </div>
     )
 }

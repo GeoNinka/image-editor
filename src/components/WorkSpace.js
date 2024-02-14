@@ -73,6 +73,7 @@ function WorkSpace({tool, form, handleFormChange}) {
         let img = await createImageBitmap(e.target.files[0]).then((resp) => {
             return resp
         })
+        console.log(img)
         setImage(img)
     }
 
@@ -100,8 +101,24 @@ function WorkSpace({tool, form, handleFormChange}) {
 
     const openImage = (e) => {
         e.preventDefault()  
-        canvas.style.width = image.width + 'px'
-        canvas.style.height = image.height + 'px'
+        
+        canvas.width = image.width
+        canvas.height = image.height
+        canvas.style.width = image.width + "px"
+        canvas.style.height = image.height + "px"
+        if(!canvas.style.top) {
+            let workspace = document.getElementsByClassName('workspace')[0]
+
+            const w = workspace.offsetWidth
+            const h = workspace.offsetHeight
+            const cw = canvas.offsetWidth
+            const ch = canvas.offsetHeight
+             
+            canvas.style.top = (h/2 - ch/2) + "px"
+            canvas.style.left = (w/2 - cw/2) + "px"
+        }
+
+        context.drawImage(image, 0, 0, image.width, image.height)
         handleFormChange('none')
 
     }

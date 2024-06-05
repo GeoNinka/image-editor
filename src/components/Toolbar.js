@@ -20,6 +20,7 @@ function Toolbar({ onChange }) {
         selected.className = 'toolbar__tool toolbar__tool--selected'
         onChange(e.currentTarget.id)
         setSelectedTool(e.currentTarget.id)
+        localStorage.setItem('tool', e.currentTarget.id)
     }
 
     useEffect(() => {

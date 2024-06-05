@@ -18,6 +18,57 @@
     background-color: #323232;
     margin-left: -2px;
     align-items: center;
+    width: 100%;
+}
+
+.matrix {
+    display: flex;
+    flex-direction: column;
+}
+
+.matrix__line {
+    display: flex;
+    flex-direction: row;
+}
+
+.matrix__input {
+    width: 30px;
+}
+
+.curve {
+    display: flex;
+    flex-direction: column;
+}
+
+.curve__column {
+    display: flex;
+    flex-direction: column;
+}
+
+.curve__pair {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.text-pair {
+    display: flex;
+    flex-direction: row;
+}
+
+.menu {
+    z-index: 999;
+    position: absolute;
+    background-color: #323232;
+    color:  white;
+    padding: 20px;
+    bottom: 0;
+    right: 0;
+}
+
+.bottom-menu-buttons {
+    display: flex;
+    flex-direction: column;
 }
 
 .workspace__coordinate {

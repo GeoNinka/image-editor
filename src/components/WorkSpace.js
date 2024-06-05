@@ -47,7 +47,7 @@ function WorkSpace({tool, form, handleFormChange, ref}) {
     
     const [previewCheckbox, setPreviewCheckbox] = useState(true)
 
-    const [filterMenu, setFiletMenu] = useState('visible')
+    const [filterMenu, setFiletMenu] = useState('hidden')
     const [filterCheckbox, setFilterCheckbox] = useState(false)
     const [kernel, setKernel] = useState([[[0],[0],[0]],[[0],[1],[0]],[[0],[0],[0]]])
     const [k1, setK1] = useState(0)
@@ -616,12 +616,18 @@ function WorkSpace({tool, form, handleFormChange, ref}) {
             setColorMenu(false)
         } else {
             setColorMenu(true)
+            setResizeMenu(false)
+            setFiletMenu('hidden')
+            setCurveMenu('hidden')
         }
     }
 
     const resizeToggler = () => {
         if(resizeMenu == false) {
             setResizeMenu(true)
+            setColorMenu(false)
+            setFiletMenu('hidden')
+            setCurveMenu('hidden')
         } else {
             setResizeMenu(false)
         }
@@ -630,6 +636,9 @@ function WorkSpace({tool, form, handleFormChange, ref}) {
     const curveToggler = () => {
         if(curveMenu == 'hidden') {
             setCurveMenu('visible') 
+            setResizeMenu(false)
+            setColorMenu(false)
+            setFiletMenu('hidden')
             drawGraph()
         } else {
             setCurveMenu('hidden')
@@ -688,8 +697,6 @@ function WorkSpace({tool, form, handleFormChange, ref}) {
 
     const changeCurveX2 = (e) => {
         let value = Number(e.target.value)
-
-
 
         setCurveX2(value)
         drawCurve(curveX1, value, curveY1, curveY2)
@@ -874,6 +881,12 @@ function WorkSpace({tool, form, handleFormChange, ref}) {
         tempCanvas.width = image.width;
         tempCanvas.height = image.height;
 
+        setCurveX1(0)
+        setCurveX2(0)
+        setCurveY1(255)
+        setCurveY2(255)
+        drawCurve(0,0,255,255)
+
         let newImage = createImageBitmap(context.getImageData(coorinates[0], coorinates[1], imageWidth, imageHeight))
         newImage.then((rt) => {
             setImage(rt)
@@ -987,6 +1000,9 @@ function WorkSpace({tool, form, handleFormChange, ref}) {
             setFiletMenu('hidden')
         } else {
             setFiletMenu('visible')
+            setResizeMenu(false)
+            setColorMenu(false)
+            setCurveMenu('hidden')
         }
     }
 
@@ -1226,11 +1242,11 @@ function WorkSpace({tool, form, handleFormChange, ref}) {
                                 <div className='curve__column'>
                                     <label class="modal__label">
                                     X2:
-                                    <input value={curveX2} onChange={changeCurveX2} type="number" min="0" max={curveY2 - 1} step={5}/>
+                                    <input value={curveX2} onChange={changeCurveX2} type="number" min="0" max='255' step={5}/>
                                     </label>   
                                     <label class="modal__label">
                                     Y2:
-                                    <input value={curveY2} onChange={changeCurveY2} type="number" min={curveX2 + 1} max="255" step={5}/>
+                                    <input value={curveY2} onChange={changeCurveY2} type="number" min='0' max="255" step={5}/>
                                     </label>
                                 </div>
                             </div>
